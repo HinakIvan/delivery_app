@@ -38,7 +38,7 @@ class _MainFoodPageState extends State<MainFoodPage> {
                       text: 'Brno',
                       color: Colors.black54,
                     ),
-                    Icon(Icons.arrow_drop_down_circle_outlined),
+                    Icon(Icons.arrow_drop_down),
                   ])
                 ],
               ),
