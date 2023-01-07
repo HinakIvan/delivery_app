@@ -1,5 +1,6 @@
 import 'package:delivery_app1/home/main_food_page.dart';
 import 'package:delivery_app1/home/main_food_page.dart';
+import 'package:delivery_app1/pages/food/popular_food_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,7 +29,7 @@ debugShowCheckedModeBanner: false,
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home:  MainFoodPage(),
+      home:  PopularFoodDetail(),
     );
   }
 }

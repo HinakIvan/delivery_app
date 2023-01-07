@@ -16,13 +16,15 @@ class MainFoodPage extends StatefulWidget {
 class _MainFoodPageState extends State<MainFoodPage> {
   @override
   Widget build(BuildContext context) {
-    print('current height is'+MediaQuery.of(context).size.height.toString());
+    print('current height is' + MediaQuery.of(context).size.height.toString());
     return Scaffold(
       body: Column(children: [
         Container(
             child: Container(
-          margin: EdgeInsets.only(top: Dimensions.height45, bottom: Dimensions.height15),
-          padding: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
+          margin: EdgeInsets.only(
+              top: Dimensions.height45, bottom: Dimensions.height15),
+          padding: EdgeInsets.only(
+              left: Dimensions.width20, right: Dimensions.width20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -37,7 +39,10 @@ class _MainFoodPageState extends State<MainFoodPage> {
                       text: 'Brno',
                       color: Colors.black54,
                     ),
-                    Icon(Icons.arrow_drop_down,size: Dimensions.iconSize24,),
+                    Icon(
+                      Icons.arrow_drop_down,
+                      size: Dimensions.iconSize24,
+                    ),
                   ])
                 ],
               ),
@@ -45,7 +50,8 @@ class _MainFoodPageState extends State<MainFoodPage> {
                 child: Container(
                   child: Icon(
                     Icons.search,
-                    color: Colors.white,size: Dimensions.iconSize24,
+                    color: Colors.white,
+                    size: Dimensions.iconSize24,
                   ),
                   width: Dimensions.height45,
                   height: Dimensions.height45,
@@ -56,7 +62,8 @@ class _MainFoodPageState extends State<MainFoodPage> {
               )
             ],
           ),
-        )),FoodPageBody()
+        )),
+        Expanded(child: SingleChildScrollView(child: FoodPageBody()))
       ]),
     );
   }
