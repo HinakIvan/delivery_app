@@ -25,7 +25,7 @@ static double height30=screenHeight/27.83;
   static double width120=screenWidth/6.958;
   static double width200=screenWidth/4.175;
 
-
+ static double font16=screenHeight/52.18;
   static double font20 = screenHeight/41.745;
   static double font26 = screenHeight/32.1;
 
