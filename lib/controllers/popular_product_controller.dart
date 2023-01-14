@@ -1,26 +1,39 @@
 import 'dart:convert';
-
-import 'package:delivery_app1/data/repository/popular_product_repo.dart';
+import 'package:http/http.dart' as http;
 import 'package:delivery_app1/models/products_model.dart';
 import 'package:get/get.dart';
 
 class PopularProductController extends GetxController {
-  final PopularProductRepo popularProductRepo;
+  var showFavorites= false;
+  var _productList =  <Product>[].obs;
+  List<Product> get productList => _productList;
 
-  PopularProductController({required this.popularProductRepo});
+  bool _isLoaded = false;
+ bool get isLoaded => _isLoaded;
 
-  var productList = <Product>[].obs;
+  @override
+  void onInit(){
+    super.onInit();
+    getPopularProductList();
+  }
+
+  List<Product> get favoriteItem {
+    return _productList.where((prodItem) => prodItem.isFavorite).toList();
+  }
 
   Future<void> getPopularProductList() async {
-    Response response = await popularProductRepo.getPopularProducList();
+    var url = Uri.https(
+        'shop-app-flutter-a42ca-default-rtdb.firebaseio.com', '/products.json');
+    final response = await http.get(url);
     if (response.statusCode == 200) {
-      print(response.body.runtimeType);
-      print(response.body);
-      print('got products');
-      final _albumModel = json.decode(response.body) as Map<String, dynamic>;
 
-      _albumModel.forEach((prodId, prodData) {
-        productList.add(Product(
+      print(response.body.runtimeType);
+      print('got products');
+      var productsJson = json.decode(response.body) as Map<String ,dynamic> ;
+
+
+      productsJson.forEach((prodId, prodData) {
+        _productList.add(Product(
             id: prodId,
             title: prodData['title'],
             description: prodData['description'],
@@ -28,11 +41,22 @@ class PopularProductController extends GetxController {
             imageUrl: prodData['imageUrl'],
             isFavorite: prodData['isFavorite']));
       });
-      print(productList);
+      // for (var product in productsJson){
+      //   productList.add(Product.fromJson(product));
+      // }
+//       productList.add(
+// productsJson
+//             // Product(
+//             // id:productsJson.id,
+//             // title: productsJson.title,
+//             // description: productsJson.description,
+//             // price: productsJson.price,
+//             // imageUrl: productsJson.imageUrl,
+//             // isFavorite: productsJson.isFavorite)
+//       );
+//       print(_productList.length);
+_isLoaded=true;
 
-      update();
-    } else {
-      Get.snackbar('Error Loading dots!', 'Server responsed (response.status)');
-    }
+    } else {print ("error");}
   }
 }

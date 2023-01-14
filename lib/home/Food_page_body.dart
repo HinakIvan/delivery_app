@@ -1,3 +1,6 @@
+import 'package:delivery_app1/models/products_model.dart';
+import 'package:delivery_app1/pages/food/recommended_food_detail.dart';
+import 'package:delivery_app1/routes/route_helper.dart';
 import 'package:delivery_app1/utils/colors.dart';
 import 'package:delivery_app1/utils/dimensions.dart';
 import 'package:delivery_app1/widgets/Big_text.dart';
@@ -6,6 +9,11 @@ import 'package:delivery_app1/widgets/app_column.dart';
 import 'package:delivery_app1/widgets/small_text.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/popular_product_controller.dart';
+
+enum FilterOptions { Favorites, All }
 
 class FoodPageBody extends StatefulWidget {
   const FoodPageBody({Key? key}) : super(key: key);
@@ -15,6 +23,8 @@ class FoodPageBody extends StatefulWidget {
 }
 
 class _FoodPageBodyState extends State<FoodPageBody> {
+  final PopularProductController productController =
+      Get.put(PopularProductController());
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currentPageValue = 0.0;
   double _scaleFactor = 0.8;
@@ -40,28 +50,44 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   Widget build(BuildContext context) {
     return Column(children: [
       //slider selection
-      Container(
-        // color: Colors.red,
-        height: Dimensions.pageView,
-        child: PageView.builder(
-            controller: pageController,
-            itemCount: 5,
-            itemBuilder: (context, position) {
-              return _buildPageItem(position);
-            }),
+      Obx(
+        () {
+          return Container(
+            // color: Colors.red,
+            height: Dimensions.pageView,
+            child: GestureDetector(onTap:(){
+              Get.toNamed(RouteHelper.getPopularFood());
+            } ,
+              child: PageView.builder(
+                  controller: pageController,
+                  itemCount: productController.productList.isEmpty
+                      ? 1
+                      : productController.productList.length,
+                  itemBuilder: (context, position) {
+                    return _buildPageItem(
+                        position, productController.productList[position]);
+                  }),
+            ),
+          );
+        },
       ),
+
       //dots
-      new DotsIndicator(
-        dotsCount: 5,
-        position: _currentPageValue,
-        decorator: DotsDecorator(
-          activeColor: AppColors.mainColor,
-          size: const Size.square(9.0),
-          activeSize: const Size(18.0, 9.0),
-          activeShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(Dimensions.radius5)),
-        ),
-      ),
+      Obx(() {
+        return DotsIndicator(
+          dotsCount: productController.productList.isEmpty
+              ? 1
+              : productController.productList.length,
+          position: _currentPageValue,
+          decorator: DotsDecorator(
+            activeColor: AppColors.mainColor,
+            size: const Size.square(9.0),
+            activeSize: const Size(18.0, 9.0),
+            activeShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(Dimensions.radius5)),
+          ),
+        );
+      }),
       SizedBox(
         height: Dimensions.height30,
       ),
@@ -97,82 +123,22 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       ),
       //  List of food and images
 
-         ListView.builder(
-          itemCount: 10,
+      Obx(() {
+        return ListView.builder(
+          itemCount: productController.favoriteItem.isEmpty
+              ? 1
+              : productController.favoriteItem.length,
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.only(
-                  left: Dimensions.width20,
-                  right: Dimensions.width20,
-                  bottom: Dimensions.height10),
-              child: Row(
-                children: [
-                  //image section
-                  Container(
-                    width: Dimensions.height120,
-                    height: Dimensions.height120,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius20),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/image/breakfast0.jpg'))),
-                  ),
-                  //  text container
-                  Expanded(
-                    child: Container(
-                      height: Dimensions.height120,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(Dimensions.radius20),
-                              bottomRight:
-                                  Radius.circular(Dimensions.radius20)),
-                          color: Colors.white),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: Dimensions.width10,
-                            right: Dimensions.width10),
-                        child: Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            BigText(text: 'Nutritious  meal in Europe'),
-                            SizedBox(height: Dimensions.height10,),
-                            SmallText(text: 'With europian characteristics'),
-                            SizedBox(height: Dimensions.height10,),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconAndTextWidget(
-                                    icon: Icons.circle_sharp,
-                                    text: 'Normal',
-                                    iconcolor: AppColors.Color1),
-                                IconAndTextWidget(
-                                    icon: Icons.location_on,
-                                    text: '1.7',
-                                    iconcolor: AppColors.mainColor),
-                                IconAndTextWidget(
-                                    icon: Icons.access_time_rounded,
-                                    text: '32min',
-                                    iconcolor: AppColors.Color2)
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            );
+          itemBuilder: (context, position) {
+            return _buildPopularProductList( position, productController.favoriteItem[position]);
           },
-        ),
-
+        );
+      }),
     ]);
   }
 
-  Widget _buildPageItem(int index) {
+  Widget _buildPageItem(int index, Product productList) {
     Matrix4 matrix = new Matrix4.identity();
     if (index == _currentPageValue.floor()) {
       var currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
@@ -210,7 +176,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               color: index.isEven ? Color(0xFF69c5df) : Color(0xFF9294cc),
               image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('assets/image/breakfast0.jpg'))),
+                  image: NetworkImage(productList.imageUrl))),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -236,11 +202,85 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   top: Dimensions.height15,
                   left: Dimensions.width15,
                   right: Dimensions.width15),
-              child:AppColumn(text: 'Europian side',),
+              child: AppColumn(
+                text: productList.title,
+              ),
             ),
           ),
         )
       ]),
+    );
+  }
+
+  Widget  _buildPopularProductList(int index,Product popularList){
+    return Container(
+      margin: EdgeInsets.only(
+          left: Dimensions.width20,
+          right: Dimensions.width20,
+          bottom: Dimensions.height10),
+      child: Row(
+        children: [
+          //image section
+          Container(
+            width: Dimensions.height120,
+            height: Dimensions.height120,
+            decoration: BoxDecoration(
+                borderRadius:
+                BorderRadius.circular(Dimensions.radius20),
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(popularList.imageUrl))),
+          ),
+          //  text container
+          Expanded(
+            child: Container(
+              height: Dimensions.height120,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(Dimensions.radius20),
+                      bottomRight:
+                      Radius.circular(Dimensions.radius20)),
+                  color: Colors.white),
+              child: Padding(
+                padding: EdgeInsets.only(
+                    left: Dimensions.width10,
+                    right: Dimensions.width10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    BigText(text: popularList.title),
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    SmallText(text: 'With europian characteristics'),
+                    SizedBox(
+                      height: Dimensions.height10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconAndTextWidget(
+                            icon: Icons.circle_sharp,
+                            text: 'Normal',
+                            iconcolor: AppColors.Color1),
+                        IconAndTextWidget(
+                            icon: Icons.location_on,
+                            text: '1.7',
+                            iconcolor: AppColors.mainColor),
+                        IconAndTextWidget(
+                            icon: Icons.access_time_rounded,
+                            text: '32min',
+                            iconcolor: AppColors.Color2)
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -11,6 +11,7 @@
 //         _products!.add(new Product.fromJson(v));
 //       });
 //     }}}
+
 class Product  {
    String id;
    String title;
@@ -35,6 +36,10 @@ factory Product.fromJson(Map<String ,dynamic>json){
   price : json['price'],
   isFavorite : json ['isFavorite']);
 }
+
+
+
+
 }
 
 
