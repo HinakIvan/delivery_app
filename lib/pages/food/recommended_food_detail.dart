@@ -1,3 +1,4 @@
+import 'package:delivery_app1/controllers/popular_product_controller.dart';
 import 'package:delivery_app1/home/main_food_page.dart';
 import 'package:delivery_app1/utils/colors.dart';
 import 'package:delivery_app1/utils/dimensions.dart';
@@ -10,10 +11,15 @@ import 'package:get/get.dart';
 import '../../widgets/Big_text.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
-  const RecommendedFoodDetail({Key? key}) : super(key: key);
+  var pageId;
+   RecommendedFoodDetail({Key? key,required this.pageId}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<PopularProductController>().productList[pageId];
+// print(pageId.toString());
+// print(product.title.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -28,7 +34,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage('assets/image/breakfast0.jpg'))),
+                        image: NetworkImage(product.imageUrl!))),
               )),
           //icon widget
           Positioned(
@@ -64,7 +70,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppColumn(
-                      text: 'Europian Side',
+                      text:product.title! ,
                     ),
                     SizedBox(
                       height: Dimensions.height20,
@@ -75,7 +81,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                         child: SingleChildScrollView(
                             child: ExpandableTextWidget(
                       text:
-                          'Europian pancakes,popular in France, Belgium, Switzerland and Portugal, are made from flour, milk, and eggs.They are thin pancakes and are served with a sweet (fruit, ice cream, jam, chocolate spread, powdered sugar) or savoury filling (cheese, ham, seafood, spinach). ',
+                          product.description!,
                     )))
                   ],
                 ),
@@ -133,7 +139,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                   left: Dimensions.width20,
                   right: Dimensions.width20),
               child: BigText(
-                text: '\$10 | Add to cart',
+                text: '\$ ${product.price!}"+" | Add to cart',
                 color: Colors.white,
               ),
               decoration: BoxDecoration(
