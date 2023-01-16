@@ -1,5 +1,6 @@
 // //just dependecies
 //
+import 'package:delivery_app1/controllers/cart_controller.dart';
 import 'package:delivery_app1/controllers/popular_product_controller.dart';
 // import 'package:delivery_app1/data/repository/popular_product_repo.dart';
 import 'package:get/get.dart';
@@ -15,5 +16,6 @@ Future<void> init()async {
 // Get.lazyPut(() => PopularProductRepo(apiClient:Get.find() ));
 //
 Get.lazyPut(()=>PopularProductController());
+Get.lazyPut(() => CartController());
 //
 }
