@@ -1,4 +1,6 @@
+import 'package:delivery_app1/controllers/cart_controller.dart';
 import 'package:delivery_app1/controllers/popular_product_controller.dart';
+import 'package:delivery_app1/pages/cart/cart_page.dart';
 import 'package:delivery_app1/routes/route_helper.dart';
 import 'package:delivery_app1/utils/colors.dart';
 import 'package:delivery_app1/utils/dimensions.dart';
@@ -17,6 +19,8 @@ class PopularFoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var product = Get.find<PopularProductController>().favoriteItem[pageId];
+    Get.find<PopularProductController>()
+        .initProduc(product, Get.find<CartController>());
     return Scaffold(
         backgroundColor: Colors.white,
         body: CustomScrollView(
@@ -32,7 +36,37 @@ class PopularFoodDetail extends StatelessWidget {
                         Get.toNamed(RouteHelper.getInitial());
                       },
                       child: AppIcon(icon: Icons.clear)),
-                  AppIcon(icon: Icons.shopping_cart_outlined)
+                  Stack(children: [
+                    GestureDetector(
+                        onTap: () {
+                          Get.to(() => CartPage());
+                        },
+                        child: AppIcon(icon: Icons.shopping_cart_outlined)),
+                    Get.find<PopularProductController>().totalItems >= 1
+                        ? Positioned(
+                            top: 0,
+                            right: 0,
+                            child: AppIcon(
+                              icon: Icons.circle,
+                              size: Dimensions.iconSize20,
+                              iconcolor: Colors.transparent,
+                              backgroundColor: AppColors.mainColor,
+                            ),
+                          )
+                        : Container(),
+                    Get.find<PopularProductController>().totalItems >= 1
+                        ? Positioned(
+                            top: 0,
+                            right: 5,
+                            child: BigText(
+                              text: Get.find<PopularProductController>()
+                                  .totalItems
+                                  .toString(),
+                              size: Dimensions.height8,
+                              color: Colors.white,
+                            ))
+                        : Container()
+                  ])
                 ],
               ),
               bottom: PreferredSize(
@@ -101,7 +135,7 @@ class PopularFoodDetail extends StatelessWidget {
                           )),
                       BigText(
                         text:
-                            '\$ ${product.price!} X  ${popularProduct.quantity.toString()}',
+                            '\$ ${product.price!} X  ${popularProduct.inCartItems.toString()}',
                         color: AppColors.mainBlackColor,
                         size: Dimensions.font26,
                       ),
@@ -148,21 +182,25 @@ class PopularFoodDetail extends StatelessWidget {
                           color: AppColors.mainColor,
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(
-                            top: Dimensions.height10,
-                            bottom: Dimensions.height10,
-                            left: Dimensions.width20,
-                            right: Dimensions.width20),
-                        child: BigText(
-                          text: '\$${product.price!} | Add to cart',
-                          color: Colors.white,
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.radius20),
-                            color: AppColors.mainColor),
-                      )
+                      GestureDetector(
+                          onTap: () {
+                            popularProduct.addItem(product);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                top: Dimensions.height10,
+                                bottom: Dimensions.height10,
+                                left: Dimensions.width20,
+                                right: Dimensions.width20),
+                            child: BigText(
+                              text: '\$${product.price!} | Add to cart',
+                              color: Colors.white,
+                            ),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(Dimensions.radius20),
+                                color: AppColors.mainColor),
+                          ))
                     ],
                   ),
                 )

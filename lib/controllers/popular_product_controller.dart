@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:delivery_app1/models/products_model.dart';
 import 'package:get/get.dart';
 
+import '../models/cart_model.dart';
+
 class PopularProductController extends GetxController {
   var showFavorites = false;
   var _productList = <Product>[].obs;
@@ -83,11 +85,13 @@ class PopularProductController extends GetxController {
   }
 
   int checkQuantity(int quantity) {
-    if (quantity < 0) {
+    if (inCartItems+quantity < 0) {
       Get.snackbar('Item count', "You can't reduce more!",
           backgroundColor: AppColors.mainColor, colorText: Colors.white);
-      return 0;
-    } else if (quantity > 20) {
+          if(_inCartIrems>0){_quantity=-_inCartIrems;
+      return _quantity;}
+          return 0;
+    } else if (inCartItems+quantity > 20) {
       Get.snackbar('Item count', "You can't add more!",
           backgroundColor: AppColors.mainColor, colorText: Colors.white);
 
@@ -97,19 +101,30 @@ class PopularProductController extends GetxController {
     }
   }
 
-  void initProduc(CartController cart) {
+  void initProduc(Product product , CartController cart) {
     _quantity = 0;
     _inCartIrems = 0;
     _cart = cart;
+    var exist=false;
+     exist=_cart.existInCart(product);
+
+     if(exist){
+       _inCartIrems=_cart.getQuantity(product);
+     }
   }
 
   void addItem(Product product) {
-    if (_quantity > 0) {
       _cart.addItem(product, _quantity);
-      _quantity=0;
-    } else {
-      Get.snackbar('Item count', "You should at least add an item in the cart!",
-          backgroundColor: AppColors.mainColor, colorText: Colors.white);
-    }
+      _quantity = 0;
+      _inCartIrems=_cart.getQuantity(product);
+      update();
+  }
+
+  int get totalItems{
+    return _cart.totalItems;
+  }
+
+  List<CartModel> get getItems{
+    return _cart.getItems;
   }
 }

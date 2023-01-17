@@ -19,7 +19,8 @@ class RecommendedFoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var product = Get.find<PopularProductController>().productList[pageId];
-Get.find<PopularProductController>().initProduc(Get.find<CartController>());
+    Get.find<PopularProductController>()
+        .initProduc(product, Get.find<CartController>());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -50,7 +51,27 @@ Get.find<PopularProductController>().initProduc(Get.find<CartController>());
                         Get.to(() => MainFoodPage());
                       },
                       child: AppIcon(icon: Icons.arrow_back_ios)),
-                  AppIcon(icon: Icons.shopping_cart_outlined)
+                  GetBuilder<PopularProductController>(builder: (controller) {
+                    return Stack(children: [
+                      AppIcon(icon: Icons.shopping_cart_outlined),
+                      Get.find<PopularProductController>().totalItems >= 1
+                          ? Positioned(
+                              top: 0,
+                              right: 0,
+                              child: AppIcon(
+                                icon: Icons.circle,
+                                size: Dimensions.iconSize20,
+                                iconcolor: Colors.transparent,
+                                backgroundColor: AppColors.mainColor,
+                              ))
+                          : Container(),Get.find<PopularProductController>().totalItems >= 1
+                          ? Positioned(
+                          top: 0,
+                          right: 5,
+                          child: BigText(text: Get.find<PopularProductController>().totalItems.toString(),size: Dimensions.height8,color:Colors.white ,))
+                          : Container()
+                    ]);
+                  })
                 ],
               )),
           //introduction of food
@@ -121,7 +142,9 @@ Get.find<PopularProductController>().initProduc(Get.find<CartController>());
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () {popularProduct.setQuantity(false);},
+                      onTap: () {
+                        popularProduct.setQuantity(false);
+                      },
                       child: Icon(
                         Icons.remove,
                         color: Colors.grey,
@@ -130,16 +153,18 @@ Get.find<PopularProductController>().initProduc(Get.find<CartController>());
                     SizedBox(
                       width: Dimensions.width10 / 2,
                     ),
-                    BigText(text: popularProduct.quantity.toString()),
+                    BigText(text: popularProduct.inCartItems.toString()),
                     SizedBox(
                       width: Dimensions.width10 / 2,
                     ),
                     GestureDetector(
-                        onTap: () {popularProduct.setQuantity(true);},
-                        child:Icon(
-                      Icons.add,
-                      color: Colors.grey,
-                    ))
+                        onTap: () {
+                          popularProduct.setQuantity(true);
+                        },
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.grey,
+                        ))
                   ],
                 ),
               ),
@@ -149,7 +174,10 @@ Get.find<PopularProductController>().initProduc(Get.find<CartController>());
                     bottom: Dimensions.height20,
                     left: Dimensions.width20,
                     right: Dimensions.width20),
-                child: GestureDetector(onTap:(){popularProduct.addItem(product);} ,
+                child: GestureDetector(
+                  onTap: () {
+                    popularProduct.addItem(product);
+                  },
                   child: BigText(
                     text: '\$ ${product.price!}"+" | Add to cart',
                     color: Colors.white,
