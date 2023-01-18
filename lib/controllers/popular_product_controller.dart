@@ -15,9 +15,9 @@ class PopularProductController extends GetxController {
   List<Product> get productList => _productList;
   late CartController _cart;
 
-  bool _isLoaded = false;
+  var isLoaded = false.obs;
 
-  bool get isLoaded => _isLoaded;
+  // bool get isLoaded => _isLoaded;
 
   int _quantity = 0;
 
@@ -68,7 +68,7 @@ class PopularProductController extends GetxController {
 //             // isFavorite: productsJson.isFavorite)
 //       );
 //       print(_productList.length);
-      _isLoaded = true;
+      isLoaded.value = true;
     } else {
       print("error");
     }

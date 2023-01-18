@@ -13,7 +13,7 @@ class CartController extends GetxController {
   void addItem(Product product, int quantity) {
     var totalQuantity =0;
     if (_items.containsKey(product.id)) {
-      _items.update(product.id!, (value) {
+      _items.update(product.id, (value) {
         totalQuantity=value.quantity!+quantity;
         return CartModel(
             id: value.id,

@@ -52,7 +52,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       //slider selection
       Obx(
         () {
-          return Container(
+          return productController.isLoaded.value?
+          Container(
             // color: Colors.red,
             height: Dimensions.pageView,
             child: PageView.builder(
@@ -64,13 +65,13 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   return _buildPageItem(
                       position, productController.productList[position]);
                 }),
-          );
+          ):CircularProgressIndicator(color: AppColors.mainColor,);
         },
       ),
 
       //dots
       Obx(() {
-        return DotsIndicator(
+        return  DotsIndicator(
           dotsCount: productController.productList.isEmpty
               ? 1
               : productController.productList.length,
@@ -120,7 +121,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       //  List of food and images
 
       Obx(() {
-        return ListView.builder(
+        return productController.isLoaded.value? ListView.builder(
             itemCount: productController.favoriteItem.isEmpty
                 ? 1
                 : productController.favoriteItem.length,
@@ -130,7 +131,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               return _buildPopularProductList(
                   position, productController.favoriteItem[position]);
             },
-          );
+          ):CircularProgressIndicator(color: AppColors.mainColor,);
 
       }),
     ]);

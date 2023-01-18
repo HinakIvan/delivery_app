@@ -1,13 +1,11 @@
 import 'package:delivery_app1/controllers/cart_controller.dart';
 import 'package:delivery_app1/controllers/popular_product_controller.dart';
-import 'package:delivery_app1/pages/cart/cart_page.dart';
 import 'package:delivery_app1/routes/route_helper.dart';
 import 'package:delivery_app1/utils/colors.dart';
 import 'package:delivery_app1/utils/dimensions.dart';
 import 'package:delivery_app1/widgets/Big_text.dart';
 import 'package:delivery_app1/widgets/app_icon.dart';
 import 'package:delivery_app1/widgets/expandable_text.dart';
-import 'package:delivery_app1/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,12 +34,12 @@ class PopularFoodDetail extends StatelessWidget {
                         Get.toNamed(RouteHelper.getInitial());
                       },
                       child: AppIcon(icon: Icons.clear)),
-                  Stack(children: [
-                    GestureDetector(
-                        onTap: () {
-                          Get.to(() => CartPage());
-                        },
-                        child: AppIcon(icon: Icons.shopping_cart_outlined)),
+      GestureDetector(
+        onTap: () {
+          Get.toNamed(RouteHelper.getCartPage());
+        },child:Stack(children: [
+
+                         AppIcon(icon: Icons.shopping_cart_outlined),
                     Get.find<PopularProductController>().totalItems >= 1
                         ? Positioned(
                             top: 0,
@@ -66,7 +64,7 @@ class PopularFoodDetail extends StatelessWidget {
                               color: Colors.white,
                             ))
                         : Container()
-                  ])
+                  ]))
                 ],
               ),
               bottom: PreferredSize(
@@ -92,7 +90,7 @@ class PopularFoodDetail extends StatelessWidget {
               expandedHeight: Dimensions.height350 * 0.8,
               flexibleSpace: FlexibleSpaceBar(
                 background: Image.network(
-                  product.imageUrl!,
+                  product.imageUrl,
                   width: double.maxFinite,
                   fit: BoxFit.cover,
                 ),
@@ -103,7 +101,7 @@ class PopularFoodDetail extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(
                       left: Dimensions.width20, right: Dimensions.width20),
-                  child: ExpandableTextWidget(text: product.description!),
+                  child: ExpandableTextWidget(text: product.description),
                 ),
               ]),
             )
@@ -135,7 +133,7 @@ class PopularFoodDetail extends StatelessWidget {
                           )),
                       BigText(
                         text:
-                            '\$ ${product.price!} X  ${popularProduct.inCartItems.toString()}',
+                            '\$ ${product.price} X  ${popularProduct.inCartItems.toString()}',
                         color: AppColors.mainBlackColor,
                         size: Dimensions.font26,
                       ),
@@ -193,7 +191,7 @@ class PopularFoodDetail extends StatelessWidget {
                                 left: Dimensions.width20,
                                 right: Dimensions.width20),
                             child: BigText(
-                              text: '\$${product.price!} | Add to cart',
+                              text: '\$${product.price} | Add to cart',
                               color: Colors.white,
                             ),
                             decoration: BoxDecoration(

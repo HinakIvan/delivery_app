@@ -37,6 +37,7 @@ static double height30=screenHeight/27.83;
   static double radius30=screenHeight/27.83;
 
 //  icon size
+  static double iconSize30=screenHeight/27.83;
 static double iconSize24=screenHeight/34.79;
   static double iconSize20=screenHeight/41.745;
   static double iconSize16=screenHeight/52.18;

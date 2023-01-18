@@ -20,30 +20,30 @@ class CartPage extends StatelessWidget {
           Positioned(
               left: Dimensions.width20,
               right: Dimensions.width20,
-              top: Dimensions.height20 * 3,
+              top: Dimensions.height20*2.5,
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AppIcon(
                       icon: Icons.arrow_back_ios,
                       iconcolor: Colors.white,
                       backgroundColor: AppColors.mainColor,
-                      size: Dimensions.iconSize24),
+                      size: Dimensions.iconSize30),
                   SizedBox(width: Dimensions.width20 * 5,),
                   GestureDetector(onTap: (){Get.to(()=>MainFoodPage());},
                     child: AppIcon(
                         icon: Icons.home_outlined,
                         iconcolor: Colors.white,
                         backgroundColor: AppColors.mainColor,
-                        size: Dimensions.iconSize24),
+                        size: Dimensions.iconSize30),
                   ),
                   AppIcon(
                       icon: Icons.shopping_cart,
                       iconcolor: Colors.white,
                       backgroundColor: AppColors.mainColor,
-                      size: Dimensions.iconSize24)
+                      size: Dimensions.iconSize30)
                 ],
               )),
-          Positioned(top: Dimensions.height20 * 5,
+          Positioned(top: Dimensions.height20 * 4.5,
               left: Dimensions.width20,
               right: Dimensions.width20,
               bottom: 0,
