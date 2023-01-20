@@ -11,10 +11,10 @@ class CartController extends GetxController {
   Map<String, CartModel> get items => _items;
 
   void addItem(Product product, int quantity) {
-    var totalQuantity =0;
+    var totalQuantity = 0;
     if (_items.containsKey(product.id)) {
       _items.update(product.id, (value) {
-        totalQuantity=value.quantity!+quantity;
+        totalQuantity = value.quantity! + quantity;
         return CartModel(
             id: value.id,
             title: value.title,
@@ -22,9 +22,9 @@ class CartController extends GetxController {
             price: value.price,
             quantity: value.quantity! + quantity,
             isExist: true,
-            time: DateTime.now().toString());
+            time: DateTime.now().toString(),product: product);
       });
-      if(totalQuantity<=0){
+      if (totalQuantity <= 0) {
         _items.remove(product.id);
       }
     } else {
@@ -37,7 +37,8 @@ class CartController extends GetxController {
               price: product.price,
               quantity: quantity,
               isExist: true,
-              time: DateTime.now().toString());
+              time: DateTime.now().toString(),
+              product: product);
         });
       } else {
         Get.snackbar(
@@ -45,6 +46,7 @@ class CartController extends GetxController {
             backgroundColor: AppColors.mainColor, colorText: Colors.white);
       }
     }
+    update();
   }
 
   bool existInCart(Product product) {
@@ -66,24 +68,30 @@ class CartController extends GetxController {
     return quantity;
   }
 
-
-
-  int get totalItems{
-    var totalQuantity=0;
+  int get totalItems {
+    var totalQuantity = 0;
     _items.forEach((key, value) {
       totalQuantity += value.quantity!;
-    //  totalQuantity = totalQuantity+value.quantity!;
+      //  totalQuantity = totalQuantity+value.quantity!;
     });
     return totalQuantity;
   }
 
   //getting all iformation about items in the cart
-  List<CartModel> get getItems{
+  List<CartModel> get getItems {
     return _items.entries.map((e) {
-     return e.value;
+      return e.value;
     }).toList();
   }
 
+  double get totalAmount{
+    var total=0.0;
+
+    _items.forEach((key, value) {
+      total += value.quantity!*value.price;
+    });
+    return total;
+  }
 }
 
 //logic with display quantity and itemsInCart 10.22
