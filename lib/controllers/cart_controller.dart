@@ -1,3 +1,4 @@
+import 'package:delivery_app1/data/repository/cart_repo.dart';
 import 'package:delivery_app1/models/products_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,9 +7,14 @@ import '../models/cart_model.dart';
 import '../utils/colors.dart';
 
 class CartController extends GetxController {
+  final CartRepo cartRepo;
+
   Map<String, CartModel> _items = {};
 
+  CartController({required this.cartRepo});
+
   Map<String, CartModel> get items => _items;
+  List<CartModel> storageItems = [];
 
   void addItem(Product product, int quantity) {
     var totalQuantity = 0;
@@ -22,7 +28,8 @@ class CartController extends GetxController {
             price: value.price,
             quantity: value.quantity! + quantity,
             isExist: true,
-            time: DateTime.now().toString(),product: product);
+            time: DateTime.now().toString(),
+            product: product);
       });
       if (totalQuantity <= 0) {
         _items.remove(product.id);
@@ -46,6 +53,7 @@ class CartController extends GetxController {
             backgroundColor: AppColors.mainColor, colorText: Colors.white);
       }
     }
+    cartRepo.addToCartList(getItems);
     update();
   }
 
@@ -84,13 +92,25 @@ class CartController extends GetxController {
     }).toList();
   }
 
-  double get totalAmount{
-    var total=0.0;
+  double get totalAmount {
+    var total = 0.0;
 
     _items.forEach((key, value) {
-      total += value.quantity!*value.price;
+      total += value.quantity! * value.price;
     });
     return total;
+  }
+
+  List<CartModel> getCartData() {
+    setCart = cartRepo.getCartList();
+    return storageItems;
+  }
+
+  set setCart(List<CartModel> items) {
+    storageItems = items;
+    for (int i = 0; i < storageItems.length; i++) {
+      _items.putIfAbsent(storageItems[i].product!.id, () => storageItems[i]);
+    }
   }
 }
 

@@ -37,7 +37,15 @@ factory Product.fromJson(Map<String ,dynamic>json){
   isFavorite : json ['isFavorite']);
 }
 
-
+Map<String,dynamic>toJson(){
+  return{
+    'id':this.id,
+    'title':this.title,
+    'price':this.price,
+    'imageUrl':this.imageUrl,
+    'isFavorite':this.isFavorite,
+  };
+}
 
 
 }

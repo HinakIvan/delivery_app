@@ -27,5 +27,20 @@ class CartModel  {
         isFavorite: json ['isFavorite'],
     quantity :json ['quantity'],
      isExist :json['isExist'],
-    time:json['time'],product:Product.fromJson(json['product']) );
-  }}
+    time:json['time'],
+        product:Product.fromJson(json['product']) );
+  }
+  Map<String,dynamic>toJson(){
+    return {
+      'id':this.id,
+      'title':this.title,
+      'price':this.price,
+      'imageUrl':this.imageUrl,
+      'isFavorite':this.isFavorite,
+      'quantity':this.quantity,
+      'isExist':this.isExist,
+      'time':this.time,
+'product':this.product!.toJson()
+    };
+  }
+}
