@@ -1,9 +1,15 @@
 import 'package:delivery_app1/home/main_food_page.dart';
+import 'package:delivery_app1/pages/account/account_page.dart';
+import 'package:delivery_app1/pages/auth/sign_up_page.dart';
+import 'package:delivery_app1/pages/cart/cart_history.dart';
+import 'package:delivery_app1/pages/cart/cart_page.dart';
 import 'package:delivery_app1/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
+import '../pages/auth/sign_in_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -45,15 +51,12 @@ void initState(){
   List<Widget> _buildScreens() {
     return [
       MainFoodPage(),
-      Container(
-        child: Center(child: Text('Next page')),
-      ),
-      Container(
-        child: Center(child: Text('Next next page')),
-      ),
-      Container(
-        child: Center(child: Text('Next next next page')),
-      ),
+      SignInPage(),
+      // Container(
+      //   child: Center(child: Text('Next page')),
+      // ),
+     CartPage(),
+     AccountPage()
     ];
   }
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -69,7 +72,10 @@ void initState(){
         title: ("Cart"),
         activeColorPrimary:AppColors.mainColor,
         inactiveColorPrimary: Colors.amberAccent,
-      ),PersistentBottomNavBarItem(
+      ),
+
+
+      PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.archivebox),
         title: ("Archive"),
         activeColorPrimary: AppColors.mainColor,

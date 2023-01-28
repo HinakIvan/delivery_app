@@ -67,6 +67,10 @@ flutter:
       - assets/image/breakfast0.jpg
       - assets/image/caption.jpg
       - assets/image/logo.jpg
+      - assets/image/empty_shopping_cart.jpg
+      - assets/image/g.jpg
+      - assets/image/twitter.jpg
+      - assets/image/facebook.jpg
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:delivery_app1/controllers/popular_product_controller.dart';
 import 'package:delivery_app1/routes/route_helper.dart';
 import 'package:delivery_app1/utils/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,14 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> animation;
   late AnimationController controller;
 
+  Future<void>_loadResources() async{
+   await Get.find<PopularProductController>().getPopularProductList();
+  }
+
   @override
   void initState() {
     super.initState();
+    _loadResources();
     controller =
         AnimationController(vsync: this, duration: Duration(seconds: 2))
           ..forward();
