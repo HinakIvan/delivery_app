@@ -26,7 +26,13 @@ class CartPage extends StatelessWidget {
                 top: Dimensions.height20 * 2.5,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: [GestureDetector(onTap: (){Get.back();},
+                    child: AppIcon(
+                        icon: Icons.arrow_back_ios_new_outlined,
+                        iconcolor: Colors.white,
+                        backgroundColor: AppColors.mainColor,
+                        size: Dimensions.iconSize30),
+                  ),
 
                     GestureDetector(
                       onTap: () {
@@ -38,11 +44,7 @@ class CartPage extends StatelessWidget {
                           backgroundColor: AppColors.mainColor,
                           size: Dimensions.iconSize30),
                     ),
-                    // AppIcon(
-                    //     icon: Icons.shopping_cart,
-                    //     iconcolor: Colors.white,
-                    //     backgroundColor: AppColors.mainColor,
-                    //     size: Dimensions.iconSize30)
+
                   ],
                 )),
             GetBuilder<

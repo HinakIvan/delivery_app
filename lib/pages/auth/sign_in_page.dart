@@ -1,11 +1,13 @@
 import 'package:delivery_app1/pages/auth/sign_up_page.dart';
 import 'package:delivery_app1/utils/colors.dart';
 import 'package:delivery_app1/utils/dimensions.dart';
+import 'package:delivery_app1/widgets/app_password_field.dart';
 import 'package:delivery_app1/widgets/app_text_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/auth_controller.dart';
 import '../../widgets/Big_text.dart';
 
 class SignInPage extends StatelessWidget {
@@ -17,6 +19,8 @@ class SignInPage extends StatelessWidget {
     var passwordController = TextEditingController();
     var nameController = TextEditingController();
     var phoneController = TextEditingController();
+    var singUpImages = ["g.jpg", "twitter.jpg", "facebook.jpg"];
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -48,16 +52,23 @@ class SignInPage extends StatelessWidget {
               height: Dimensions.height20 * 3,
             ),
             AppTextField(
-                textController: emailController,
-                hintText: 'Email',
-                icon: Icons.email_outlined),
+              textInputType: TextInputType.text,
+              textController: emailController,
+              hintText: 'Email',
+              icon: Icons.email_outlined,
+              suffixIcon: Icons.delete_outline,
+              colorIcon: AppColors.deleteColor,),
             SizedBox(
               height: Dimensions.height20,
             ),
-            AppTextField(
+            AppPasswordField(
+                textInputType: TextInputType.text,
                 textController: passwordController,
                 hintText: 'Password',
-                icon: Icons.password_sharp),
+                icon: Icons.password_sharp,
+                colorIcon: Colors.grey,
+
+                ),
             SizedBox(
               height: Dimensions.height20,
             ),
@@ -75,36 +86,68 @@ class SignInPage extends StatelessWidget {
             SizedBox(
               height: Dimensions.height20 * 3,
             ),
-            Container(
-              width: Dimensions.screenWidth / 2,
-              height: Dimensions.height45 * 1.5,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.radius30),
-                  color: AppColors.mainColor),
-              child: Center(
-                  child: BigText(
-                text: 'Sign in',
-                size: Dimensions.font26 * 2,
-                color: Colors.white,
-              )),
+            GestureDetector(
+              onTap: () {
+                AuthController.instance.signIn(emailController.text.trim(),
+                    passwordController.text.trim());
+              },
+              child: Container(
+                width: Dimensions.screenWidth / 2,
+                height: Dimensions.height45 * 1.5,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius30),
+                    color: AppColors.mainColor),
+                child: Center(
+                    child: BigText(
+                      text: 'Sign in',
+                      size: Dimensions.font26 * 2,
+                      color: Colors.white,
+                    )),
+              ),
             ),
             SizedBox(
               height: Dimensions.height20,
             ),
             RichText(
                 text: TextSpan(
-
                     text: "Don't have an account?",
                     style: TextStyle(
                         color: Colors.grey[500], fontSize: Dimensions.font16),
                     children: [
-                  TextSpan(
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => Get.to(()=>SignUpPage(),transition: Transition.fade),
-                      text: "   Create",
-                      style: TextStyle(fontWeight: FontWeight.bold,
-                          color: Colors.grey[500], fontSize: Dimensions.font16))
-                ])),
+                      TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () =>
+                                Get.to(() => SignUpPage(),
+                                    transition: Transition.fade),
+                          text: "   Create",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[500],
+                              fontSize: Dimensions.font16))
+                    ])), SizedBox(
+              height: Dimensions.height20 * 3,
+            ),
+            RichText(
+                text: TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => Get.back(),
+                    text: 'Sign in using one of the following methods',
+                    style: TextStyle(
+                        color: Colors.grey[500], fontSize: Dimensions.font16))),
+            Wrap(
+              children: List.generate(
+                  3,
+                      (index) =>
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: CircleAvatar(
+                          radius: Dimensions.radius30,
+                          backgroundColor: Colors.white,
+                          backgroundImage:
+                          AssetImage('assets/image/' + singUpImages[index]),
+                        ),
+                      )),
+            )
           ],
         ),
       ),

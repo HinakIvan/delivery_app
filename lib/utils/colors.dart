@@ -7,4 +7,5 @@ class AppColors{
   static final Color Color2 = const Color(0xFFC5E1A5);
   static final Color ButtomBackGroundColor= const Color (0xFFF5F5F5);
   static final Color textColor = const Color(0xFF424242);
+  static final Color deleteColor = const Color(0xFFE57373);
 }

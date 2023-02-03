@@ -40,23 +40,25 @@ class PopularProductController extends GetxController {
     var url = Uri.https(
         'shop-app-flutter-a42ca-default-rtdb.firebaseio.com', '/products.json');
     final response = await http.get(url);
-    if (response.statusCode == 200) {
-      print(response.body.runtimeType);
-      print('got products');
-      var productsJson = json.decode(response.body) as Map<String, dynamic>;
+    // if (response.statusCode == 200)
+    try {
+      if (response.statusCode == 200) {
+        print(response.body.runtimeType);
+        print('got products');
+        var productsJson = json.decode(response.body) as Map<String, dynamic>;
 
-      productsJson.forEach((prodId, prodData) {
-        _productList.add(Product(
-            id: prodId,
-            title: prodData['title'],
-            description: prodData['description'],
-            price: prodData['price'],
-            imageUrl: prodData['imageUrl'],
-            isFavorite: prodData['isFavorite']));
-      });
-      // for (var product in productsJson){
-      //   productList.add(Product.fromJson(product));
-      // }
+        productsJson.forEach((prodId, prodData) {
+          _productList.add(Product(
+              id: prodId,
+              title: prodData['title'],
+              description: prodData['description'],
+              price: prodData['price'],
+              imageUrl: prodData['imageUrl'],
+              isFavorite: prodData['isFavorite']));
+        });
+        // for (var product in productsJson){
+        //   productList.add(Product.fromJson(product));
+        // }
 //       productList.add(
 // productsJson
 //             // Product(
@@ -68,10 +70,16 @@ class PopularProductController extends GetxController {
 //             // isFavorite: productsJson.isFavorite)
 //       );
 //       print(_productList.length);
-      isLoaded.value = true;
-    } else {
-      print("error");
+        isLoaded.value = true;
+      } else {
+        print(response.statusCode);
+      }
+    } catch (e) {
+      print(('error:' + e.toString()));
     }
+    // else {
+    //   print("error");
+    // }
     update();
   }
 
@@ -85,13 +93,15 @@ class PopularProductController extends GetxController {
   }
 
   int checkQuantity(int quantity) {
-    if (inCartItems+quantity < 0) {
+    if (inCartItems + quantity < 0) {
       Get.snackbar('Item count', "You can't reduce more!",
           backgroundColor: AppColors.mainColor, colorText: Colors.white);
-          if(_inCartIrems>0){_quantity=-_inCartIrems;
-      return _quantity;}
-          return 0;
-    } else if (inCartItems+quantity > 20) {
+      if (_inCartIrems > 0) {
+        _quantity = -_inCartIrems;
+        return _quantity;
+      }
+      return 0;
+    } else if (inCartItems + quantity > 20) {
       Get.snackbar('Item count', "You can't add more!",
           backgroundColor: AppColors.mainColor, colorText: Colors.white);
 
@@ -101,30 +111,30 @@ class PopularProductController extends GetxController {
     }
   }
 
-  void initProduc(Product product , CartController cart) {
+  void initProduc(Product product, CartController cart) {
     _quantity = 0;
     _inCartIrems = 0;
     _cart = cart;
-    var exist=false;
-     exist=_cart.existInCart(product);
+    var exist = false;
+    exist = _cart.existInCart(product);
 
-     if(exist){
-       _inCartIrems=_cart.getQuantity(product);
-     }
+    if (exist) {
+      _inCartIrems = _cart.getQuantity(product);
+    }
   }
 
   void addItem(Product product) {
-      _cart.addItem(product, _quantity);
-      _quantity = 0;
-      _inCartIrems=_cart.getQuantity(product);
-      update();
+    _cart.addItem(product, _quantity);
+    _quantity = 0;
+    _inCartIrems = _cart.getQuantity(product);
+    update();
   }
 
-  int get totalItems{
+  int get totalItems {
     return _cart.totalItems;
   }
 
-  List<CartModel> get getItems{
+  List<CartModel> get getItems {
     return _cart.getItems;
   }
 }

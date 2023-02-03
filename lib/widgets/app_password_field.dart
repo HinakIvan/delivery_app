@@ -3,23 +3,25 @@ import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 import '../utils/dimensions.dart';
 
-class AppTextField extends StatelessWidget {
+class AppPasswordField extends StatelessWidget {
   final TextEditingController textController;
   final String hintText;
   final IconData icon;
-  final IconData suffixIcon;
+
+  // final IconData suffixIcon;
   final TextInputType textInputType;
+  bool isObscure =true;
   final Color colorIcon;
 
-  AppTextField(
-      {Key? key,
-      required this.textController,
-      required this.hintText,
-      required this.icon,
-      required this.textInputType,
-      required this.suffixIcon,
-      required this.colorIcon})
-      : super(key: key);
+  AppPasswordField({
+    Key? key,
+    required this.textController,
+    required this.hintText,
+    required this.icon,
+    required this.textInputType,
+    // required this.suffixIcon,
+    required this.colorIcon,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +40,16 @@ class AppTextField extends StatelessWidget {
           ]),
       child: TextFormField(
         keyboardType: textInputType,
+        obscureText: isObscure,
         controller: textController,
         decoration: InputDecoration(
-            suffixIcon: GestureDetector(
-                onTap: () {
-                  textController.clear();
-                },
-                child: Icon(
-                  suffixIcon,
-                  color: colorIcon,
-                )),
+            suffixIcon: IconButton(
+              color: colorIcon,
+              icon: Icon(Icons.visibility),
+              onPressed: () {
+                setState();
+              },
+            ),
             hintText: hintText,
             prefixIcon: Icon(
               icon,
@@ -66,5 +68,9 @@ class AppTextField extends StatelessWidget {
             )),
       ),
     );
+  }
+
+   setState() {
+  isObscure = !isObscure;
   }
 }

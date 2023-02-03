@@ -12,6 +12,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../pages/auth/sign_in_page.dart';
 
 class HomePage extends StatefulWidget {
+// String  email;
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -21,6 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   late PersistentTabController _controller;
+
 
   // List pages = [
   //   MainFoodPage(),
@@ -51,7 +53,7 @@ void initState(){
   List<Widget> _buildScreens() {
     return [
       MainFoodPage(),
-      SignInPage(),
+      // SignInPage(),
       // Container(
       //   child: Center(child: Text('Next page')),
       // ),
@@ -75,12 +77,12 @@ void initState(){
       ),
 
 
-      PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.archivebox),
-        title: ("Archive"),
-        activeColorPrimary: AppColors.mainColor,
-        inactiveColorPrimary: Colors.amberAccent,
-      ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(CupertinoIcons.archivebox),
+      //   title: ("Archive"),
+      //   activeColorPrimary: AppColors.mainColor,
+      //   inactiveColorPrimary: Colors.amberAccent,
+      // ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.person),
         title: ("Me"),

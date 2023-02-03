@@ -30,27 +30,29 @@ class RouteHelper {
     GetPage(
         name: recommendedFood,
         page: () {
-          var pageId = Get.parameters[
-          'pageId'
-          ];
+          var pageId = Get.parameters['pageId'];
           return RecommendedFoodDetail(pageId: int.parse(pageId!));
         },
         transition: Transition.fadeIn),
-    GetPage(name: initial, page: () => HomePage()),
-
+    GetPage(
+        transition: Transition.fadeIn, name: initial, page: () => HomePage()),
     GetPage(
         name: popularFood,
         page: () {
-          var pageId = Get.parameters[
-          'pageId'
-          ];
+          var pageId = Get.parameters['pageId'];
           return PopularFoodDetail(pageId: int.parse(pageId!));
         },
         transition: Transition.fadeIn),
-    GetPage(transition: Transition.fadeIn, name: cartPage, page: () {
-      return CartPage();
-    }),
-    GetPage(name: splashPage, page: () => SplashScreen())
+    GetPage(
+        transition: Transition.fadeIn,
+        name: cartPage,
+        page: () {
+          return CartPage();
+        }),
+    GetPage(
+        transition: Transition.fadeIn,
+        name: splashPage,
+        page: () => SplashScreen())
   ];
 }
 
