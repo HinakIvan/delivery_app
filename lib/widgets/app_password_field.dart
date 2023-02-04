@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 import '../utils/dimensions.dart';
 
-class AppPasswordField extends StatelessWidget {
+class AppPasswordField extends StatefulWidget {
   final TextEditingController textController;
   final String hintText;
   final IconData icon;
 
   // final IconData suffixIcon;
   final TextInputType textInputType;
-  bool isObscure =true;
   final Color colorIcon;
 
   AppPasswordField({
@@ -22,6 +21,13 @@ class AppPasswordField extends StatelessWidget {
     // required this.suffixIcon,
     required this.colorIcon,
   }) : super(key: key);
+
+  @override
+  State<AppPasswordField> createState() => _AppPasswordFieldState();
+}
+
+class _AppPasswordFieldState extends State<AppPasswordField> {
+  bool isObscure =true;
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +45,22 @@ class AppPasswordField extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.2))
           ]),
       child: TextFormField(
-        keyboardType: textInputType,
+        keyboardType: widget.textInputType,
         obscureText: isObscure,
-        controller: textController,
+        controller: widget.textController,
         decoration: InputDecoration(
             suffixIcon: IconButton(
-              color: colorIcon,
-              icon: Icon(Icons.visibility),
+              color: widget.colorIcon,
+              icon: Icon(isObscure?Icons.visibility:Icons.visibility_off),
               onPressed: () {
-                setState();
+                setState(() {
+                  isObscure = !isObscure;
+                });
               },
             ),
-            hintText: hintText,
+            hintText: widget.hintText,
             prefixIcon: Icon(
-              icon,
+              widget.icon,
               color: AppColors.Color1,
             ),
             focusedBorder: OutlineInputBorder(
@@ -70,7 +78,5 @@ class AppPasswordField extends StatelessWidget {
     );
   }
 
-   setState() {
-  isObscure = !isObscure;
-  }
+
 }

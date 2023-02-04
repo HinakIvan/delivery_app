@@ -130,8 +130,11 @@ class SignUpPage extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 _registration();
+                AuthController.instance.saveUser(nameController.text.trim(),
+                    phoneController.text.trim(), emailController.text.trim());
                 AuthController.instance.signUp(emailController.text.trim(),
                     passwordController.text.trim());
+
               },
               child: Container(
                 width: Dimensions.screenWidth / 2,
@@ -168,19 +171,33 @@ class SignUpPage extends StatelessWidget {
                     text: 'Sign up using one of the following methods',
                     style: TextStyle(
                         color: Colors.grey[500], fontSize: Dimensions.font16))),
-            Wrap(
-              children: List.generate(
-                  3,
-                  (index) => Padding(
-                        padding: EdgeInsets.all(8),
-                        child: CircleAvatar(
-                          radius: Dimensions.radius30,
-                          backgroundColor: Colors.white,
-                          backgroundImage:
-                              AssetImage('assets/image/' + singUpImages[index]),
-                        ),
-                      )),
-            )
+            // Row ( mainAxisAlignment: MainAxisAlignment.center,children: [ Padding(
+            //        padding: EdgeInsets.all(8),
+            //        child: CircleAvatar(
+            //          radius: Dimensions.radius30,
+            //          backgroundColor: Colors.white,
+            //          backgroundImage:
+            //          AssetImage('assets/image/g.jpg' ),
+            //        ),
+            //      ),Padding(
+            //    padding: EdgeInsets.all(8),
+            //    child: CircleAvatar(
+            //      radius: Dimensions.radius30,
+            //      backgroundColor: Colors.white,
+            //      backgroundImage:
+            //      AssetImage('assets/image/facebook.jpg' ),
+            //    ),
+            //  ),Padding(
+            //    padding: EdgeInsets.all(8),
+            //    child: GestureDetector(onTap: (){AuthController.instance.signInWithGoogle();},
+            //      child: CircleAvatar(
+            //        radius: Dimensions.radius30,
+            //        backgroundColor: Colors.white,
+            //        backgroundImage:
+            //        AssetImage('assets/image/twitter.jpg' ),
+            //      ),
+            //    ),
+            //  ),]),
           ],
         ),
       ),
