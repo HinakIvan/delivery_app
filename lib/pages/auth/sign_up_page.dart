@@ -164,13 +164,13 @@ class SignUpPage extends StatelessWidget {
             SizedBox(
               height: Dimensions.height20,
             ),
-            RichText(
-                text: TextSpan(
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => Get.back(),
-                    text: 'Sign up using one of the following methods',
-                    style: TextStyle(
-                        color: Colors.grey[500], fontSize: Dimensions.font16))),
+            // RichText(
+            //     text: TextSpan(
+            //         recognizer: TapGestureRecognizer()
+            //           ..onTap = () => Get.back(),
+            //         text: 'Sign up using one of the following methods',
+            //         style: TextStyle(
+            //             color: Colors.grey[500], fontSize: Dimensions.font16))),
             // Row ( mainAxisAlignment: MainAxisAlignment.center,children: [ Padding(
             //        padding: EdgeInsets.all(8),
             //        child: CircleAvatar(

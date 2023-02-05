@@ -34,37 +34,37 @@ class PopularFoodDetail extends StatelessWidget {
                         Get.toNamed(RouteHelper.getInitial());
                       },
                       child: AppIcon(icon: Icons.clear)),
-      GestureDetector(
-        onTap: () {
-          Get.toNamed(RouteHelper.getCartPage());
-        },child:Stack(children: [
-
-                         AppIcon(icon: Icons.shopping_cart_outlined),
-                    Get.find<PopularProductController>().totalItems >= 1
-                        ? Positioned(
-                            top: 0,
-                            right: 0,
-                            child: AppIcon(
-                              icon: Icons.circle,
-                              size: Dimensions.iconSize20,
-                              iconcolor: Colors.transparent,
-                              backgroundColor: AppColors.mainColor,
-                            ),
-                          )
-                        : Container(),
-                    Get.find<PopularProductController>().totalItems >= 1
-                        ? Positioned(
-                            top: 0,
-                            right: 5,
-                            child: BigText(
-                              text: Get.find<PopularProductController>()
-                                  .totalItems
-                                  .toString(),
-                              size: Dimensions.height8,
-                              color: Colors.white,
-                            ))
-                        : Container()
-                  ]))
+                  GestureDetector(
+                      onTap: () {
+                        Get.toNamed(RouteHelper.getCartPage());
+                      },
+                      child: Stack(children: [
+                        AppIcon(icon: Icons.shopping_cart_outlined),
+                        Get.find<PopularProductController>().totalItems >= 1
+                            ? Positioned(
+                                top: 0,
+                                right: 0,
+                                child: AppIcon(
+                                  icon: Icons.circle,
+                                  size: Dimensions.iconSize20,
+                                  iconcolor: Colors.transparent,
+                                  backgroundColor: AppColors.mainColor,
+                                ),
+                              )
+                            : Container(),
+                        Get.find<PopularProductController>().totalItems >= 1
+                            ? Positioned(
+                                top: 0,
+                                right: 5,
+                                child: BigText(
+                                  text: Get.find<PopularProductController>()
+                                      .totalItems
+                                      .toString(),
+                                  size: Dimensions.height8,
+                                  color: Colors.white,
+                                ))
+                            : Container()
+                      ]))
                 ],
               ),
               bottom: PreferredSize(

@@ -90,7 +90,10 @@ class AuthController extends GetxController {
       'email':email
     });
 
+   
   }
+
+
 
   Future <UserModel> getDocId(String email) async {
     // String uid = FirebaseAuth.instance.currentUser!.uid;
