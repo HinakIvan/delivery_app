@@ -272,9 +272,10 @@ class CartPage extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         // cartController.addToHistory();
+                        Get.toNamed(RouteHelper.getAddressPage());
                       },
                       child: BigText(
-                        text: 'Check out',
+                        text: 'Order',
                         color: Colors.white,
                       ),
                     ),
