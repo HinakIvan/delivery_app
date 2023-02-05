@@ -272,7 +272,7 @@ class CartPage extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         // cartController.addToHistory();
-                        Get.toNamed(RouteHelper.getAddressPage());
+                        // Get.toNamed(RouteHelper.getAddressPage());
                       },
                       child: BigText(
                         text: 'Order',

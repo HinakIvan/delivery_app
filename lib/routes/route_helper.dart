@@ -58,11 +58,12 @@ class RouteHelper {
         transition: Transition.fadeIn,
         name: splashPage,
         page: () => SplashScreen()),
-    GetPage(
-        name: addAddress,
-        page: () {
-          return AddAddressPage();
-        })
+    // GetPage(
+    //     name: addAddress,
+    //     page: () {
+    //       return
+    //       // AddAddressPage();
+    //     })
   ];
 }
 
